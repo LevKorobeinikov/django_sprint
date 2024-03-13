@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 
-from django.shortcuts import render
 
 posts = [
     {
@@ -47,23 +46,20 @@ posts = [
     },
 ]
 
+post_dict = {post['id']: post for post in posts}
+
 
 def index(request):
-    template = 'blog/index.html'
-    context = {'posts': reversed(posts)}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', {'posts': reversed(posts)})
 
 
-def post_detail(request, pk):
-    post = next((post for post in posts if post['id'] == pk), None)
-    template = 'blog/detail.html'
-    context = {'post': post}
-    return render(request, template, context)
+def post_detail(request, post_id):
+    post = post_dict.get(post_id)
+    if post is None:
+        raise ValueError('Пост с id {} не существует'.format(post_id))
+    return render(request, 'blog/detail.html', {'post': post})
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
-    context = {'category_slug': category_slug}
-    return render(request, template, context)
-
-# Create your views here.
+    return render(request, 'blog/category.html',
+                  {'category_slug': category_slug})

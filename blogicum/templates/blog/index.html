@@ -21,9 +21,9 @@
         </li>
       </ul>          
       <p>
-        {{ blog.text|truncatewords:10}}
+        {{ blog.text|truncatewords:10|linebreaksbr }}
       </p>
-      <a href="{% url 'blog:post_detail' blog.id  %}">Читать полный текст</a>
+      <a href="{% url 'blog:post_detail' post_id=blog.id  %}">Читать полный текст</a>
     </article>
   {% endfor %}
 {% endblock %} 
